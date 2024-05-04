@@ -32,11 +32,10 @@ deleteUser(@Param('userId') userId: number): User | undefined {
     return this.usersService.deleteUser(userId);
 }
 
-@Patch(":userId")
-update(@Param('userId',ParseIntPipe) userId:number, @Body() user:any){
-    return this.update(userId,user)
+@Patch()
+update(@Body() updatedUser: User) {
+    return this.usersService.update(updatedUser)
 }
-
 
 
 }

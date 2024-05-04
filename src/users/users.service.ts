@@ -32,7 +32,7 @@ export class UsersService {
         }
     }
 
-      findAllUsers(){      
+      findAllUsers(){    
        return this.users
       };
 
@@ -43,8 +43,6 @@ export class UsersService {
         }
         return user
       }
-
-
 
     createUser(user:User){
         const existId=this.users.find(u=>u.id==user.id || u.email==user.email)
@@ -64,8 +62,6 @@ export class UsersService {
         
      
     }
-    
-
     deleteUser(userId: number): User | undefined {
         const index = this.users.findIndex(user => user.id == userId);
         if (index !== -1) {
@@ -76,14 +72,21 @@ export class UsersService {
         return undefined; // Return undefined if user with specified userId is not found
     }
 
-    update(userId: number, updatedUser: User): User | {msg:string} {
-        const index = this.users.findIndex(user => user.id == userId);
-        if (index !== -1) {
-            this.users[index] = { ...this.users[index], ...updatedUser };
-            this.saveUsersToFile();
-            return this.users[index];
+    update( updatedUser: User): User | undefined {
+        const index=this.users.findIndex(user=>user.id==updatedUser.id);
+        if(index===-1){
+            return undefined
         }
-        return {msg:"user not found"}; // Return undefined if user with specified userId is not found
+        else{
+
+            this.users[index] = { ...this.users[index], ...updatedUser };
+            this.saveUsersToFile()
+            return this.users[index]
+        }
+
+            
+            
+       
     }
   
 }
