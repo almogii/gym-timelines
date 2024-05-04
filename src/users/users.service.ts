@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { User } from './user.model';
 import * as fs from 'fs'
 @Injectable()
 export class UsersService {
 
-    private users:any[] 
+    private users:User[] 
     
     constructor() {
     
@@ -13,7 +14,7 @@ export class UsersService {
             console.log(jsonString);
             
             // Parse the JSON string
-            this.users = JSON.parse(jsonString);
+            this.users = JSON.parse(jsonString).map((userData: any) => new User(userData));
         } catch (err) {
             console.error("Error reading users file:", err);
             this.users = [];
@@ -35,8 +36,8 @@ export class UsersService {
        return this.users
       };
 
-      findOneByID(userId:string){
-        const user= this.users.filter(user=> user.id == + userId);
+      findOneByID(userId:number) {
+        const user= this.users.filter(user=> user.id == userId);
         if(user.length===0){
             return {"msg":"user not exist"}
         }
@@ -45,7 +46,7 @@ export class UsersService {
 
 
 
-    createUser(user:any){
+    createUser(user:User){
         const existId=this.users.find(u=>u.id==user.id || u.email==user.email)
         console.log(existId);
         
@@ -65,9 +66,24 @@ export class UsersService {
     }
     
 
-   deleteUser(userId: string) {
-        this.users = this.users.filter(user => user.id !== +userId);
-        this.saveUsersToFile();
-        return this.users;
+    deleteUser(userId: number): User | undefined {
+        const index = this.users.findIndex(user => user.id == userId);
+        if (index !== -1) {
+            const removedUser = this.users.splice(index, 1)[0];
+            this.saveUsersToFile();
+            return removedUser;
+        }
+        return undefined; // Return undefined if user with specified userId is not found
     }
+
+    update(userId: number, updatedUser: User): User | {msg:string} {
+        const index = this.users.findIndex(user => user.id == userId);
+        if (index !== -1) {
+            this.users[index] = { ...this.users[index], ...updatedUser };
+            this.saveUsersToFile();
+            return this.users[index];
+        }
+        return {msg:"user not found"}; // Return undefined if user with specified userId is not found
+    }
+  
 }
