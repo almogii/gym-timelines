@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './user.model';
+import {CreateUserDto} from './dto/create-user.dto';
 import * as fs from 'fs'
+import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UsersService {
 
@@ -44,15 +46,14 @@ export class UsersService {
         return user
       }
 
-    createUser(user:User){
-        const existId=this.users.find(u=>u.id==user.id || u.email==user.email)
-        console.log(existId);
+    createUser(createUserDto:CreateUserDto){
+        const existId=this.users.find(u=>u.firstName==createUserDto.firstName || u.email==createUserDto.email)
         
         if(!existId){
             const maxId = this.users.length > 0 ? Math.max(...this.users.map(u => u.id)) : 0;
             const newUser = {
                 id: maxId + 1,
-                ...user
+                ...createUserDto
             };
         this.users.push(newUser)
         this.saveUsersToFile();
@@ -72,8 +73,8 @@ export class UsersService {
         return undefined; // Return undefined if user with specified userId is not found
     }
 
-    update( updatedUser: User): User | undefined {
-        const index=this.users.findIndex(user=>user.id==updatedUser.id);
+    update( id:number,updatedUser: UpdateUserDto): User | undefined {
+        const index=this.users.findIndex(user=>user.id==id);
         if(index===-1){
             return undefined
         }
