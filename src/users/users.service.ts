@@ -3,6 +3,7 @@ import { User } from './user.model';
 import {CreateUserDto} from './dto/create-user.dto';
 import * as fs from 'fs'
 import { UpdateUserDto } from './dto/update-user.dto';
+import { NotFoundException } from '@nestjs/common';
 @Injectable()
 export class UsersService {
 
@@ -35,14 +36,15 @@ export class UsersService {
     }
 
       findAllUsers(){    
+        if(this.users.length===0) throw new NotFoundException("there is no Users in the DB")
        return this.users
       };
 
       findOneByID(userId:number) {
         const user= this.users.filter(user=> user.id == userId);
-        if(user.length===0){
-            return {"msg":"user not exist"}
-        }
+        if(user.length===0) throw new NotFoundException('User not found ')
+           
+        
         return user
       }
 
@@ -63,14 +65,14 @@ export class UsersService {
         
      
     }
-    deleteUser(userId: number): User | undefined {
+    deleteUser(userId: number): User  {
         const index = this.users.findIndex(user => user.id == userId);
         if (index !== -1) {
             const removedUser = this.users.splice(index, 1)[0];
             this.saveUsersToFile();
             return removedUser;
         }
-        return undefined; // Return undefined if user with specified userId is not found
+        throw new NotFoundException(`This user id= ${userId} has not found.`); // Return undefined if user with specified userId is not found
     }
 
     update( id:number,updatedUser: UpdateUserDto): User | undefined {
