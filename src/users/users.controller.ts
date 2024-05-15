@@ -29,7 +29,7 @@ createUser(@Body(ValidationPipe) createUserDto:CreateUserDto){
 }
 
 @Delete(':userId')
-deleteUser(@Param('userId') userId: number): User | undefined {
+deleteUser(@Param('userId') userId: number) {
     return this.usersService.deleteUser(userId);
 }
 

@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import {User} from './users/user.model'
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule ,ConfigService} from '@nestjs/config';
+ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -25,13 +26,12 @@ import { ConfigModule ,ConfigService} from '@nestjs/config';
         logging:true,
         synchronize:false
         
-        
       };
     },
     inject:[ConfigService],
   }
   ),
-  
+  UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],

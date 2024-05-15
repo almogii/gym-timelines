@@ -2133,5 +2133,49 @@
       "color": "Black",
       "type": "Strands"
     }
+  },
+  {
+    "id": 38,
+    "firstName": "almogtest",
+    "lastName": "Add",
+    "maidenName": "DB",
+    "age": 50,
+    "gender": "male",
+    "email": "Almogtest@gmail.com",
+    "phone": "+63 791 675 8914",
+    "username": "almogii@",
+    "password": "123456789",
+    "birthDate": "2000-12-25",
+    "image": "https://robohash.org/Terry.png?set=set4",
+    "bloodGroup": "A-",
+    "height": 189,
+    "weight": 75.4,
+    "eyeColor": "Green",
+    "hair": {
+      "color": "Black",
+      "type": "Strands"
+    }
+  },
+  {
+    "id": 39,
+    "firstName": "almogi",
+    "lastName": "tryadd",
+    "maidenName": "DB",
+    "age": 50,
+    "gender": "male",
+    "email": "Almogtest1@gmail.com",
+    "phone": "+63 791 675 8914",
+    "username": "almogii@",
+    "password": "123456789",
+    "birthDate": "2000-12-25",
+    "image": "https://robohash.org/Terry.png?set=set4",
+    "bloodGroup": "A-",
+    "height": 189,
+    "weight": 75.4,
+    "eyeColor": "Green",
+    "hair": {
+      "color": "Black",
+      "type": "Strands"
+    }
   }
 ]

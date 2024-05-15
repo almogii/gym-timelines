@@ -1,95 +1,72 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './user.model';
 import {CreateUserDto} from './dto/create-user.dto';
-import * as fs from 'fs'
+// import * as fs from 'fs'
 import { UpdateUserDto } from './dto/update-user.dto';
 import { NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 @Injectable()
 export class UsersService {
 
-    private users:User[] 
-    
-    constructor() {
-    
-        
-        try {
-            const jsonString = fs.readFileSync('src/users/users.json', 'utf-8');
-            console.log(jsonString);
-            
-            // Parse the JSON string
-            this.users = JSON.parse(jsonString).map((userData: any) => new User(userData));
-        } catch (err) {
-            console.error("Error reading users file:", err);
-            this.users = [];
-        }
-    }
+        constructor(
+            @InjectRepository(User)
+            private usersRepository: Repository<User>,
+          ) {}
+       
 
+     async findAllUsers():Promise<User[]>{ 
+         if( !await this.usersRepository.find() || (await this.usersRepository.find()).length===0) throw new NotFoundException('User not found ')
 
-    private saveUsersToFile() {
-        
-        try {
-            fs.writeFileSync('src/users/users.json', JSON.stringify(this.users, null, 2));
-            console.log("Users data saved successfully.");
-        } catch (err) {
-            console.error("Error writing users file:", err);
-        }
-    }
-
-      findAllUsers(){    
-        if(this.users.length===0) throw new NotFoundException("there is no Users in the DB")
-       return this.users
+        return await this.usersRepository.find()
+       
       };
 
-      findOneByID(userId:number) {
-        const user= this.users.filter(user=> user.id == userId);
-        if(user.length===0) throw new NotFoundException('User not found ')
-           
-        
-        return user
+     async findOneByID(userId:number) {
+       
+           const user=  await this.usersRepository.findOne({where:{id:userId}})
+           if (!user)  throw new NotFoundException('User not found ') 
+          return user
+
       }
 
-    createUser(createUserDto:CreateUserDto){
-        const existId=this.users.find(u=>u.firstName==createUserDto.firstName || u.email==createUserDto.email)
+      async createUser(createUserDto: CreateUserDto): Promise<User> {
+        // Check if a user with the given email already exists
+        const existingUser = await this.usersRepository.findOne({where:{ email: createUserDto.email }});
+    
+        if (existingUser) {
+          throw new NotFoundException('User with this email already exists');
+        }
+    
+        // Create a new user entity with the provided data
+        const newUser = this.usersRepository.create(createUserDto);
+    
+        // Save the new user entity to the database
+        return this.usersRepository.save(newUser);
+      }
+
+      async deleteUser(userId: number) {
+        // Find the user with the provided userId in the database
+        const user = await this.usersRepository.findOne({where:{id:userId}})
         
-        if(!existId){
-            const maxId = this.users.length > 0 ? Math.max(...this.users.map(u => u.id)) : 0;
-            const newUser = {
-                id: maxId + 1,
-                ...createUserDto
-            };
-        this.users.push(newUser)
-        this.saveUsersToFile();
-        return newUser;
-        }
-        else{return {'msg':'this user is already exist' ,'user':[existId]}}
+        if(user){
         
-     
-    }
-    deleteUser(userId: number): User  {
-        const index = this.users.findIndex(user => user.id == userId);
-        if (index !== -1) {
-            const removedUser = this.users.splice(index, 1)[0];
-            this.saveUsersToFile();
-            return removedUser;
+        await this.usersRepository.remove(user)
+        return `User with id ${userId} has been successfully deleted`;
         }
-        throw new NotFoundException(`This user id= ${userId} has not found.`); // Return undefined if user with specified userId is not found
-    }
+        
+        return new Error(`there is no such user`)
+         
+      }
 
-    update( id:number,updatedUser: UpdateUserDto): User | undefined {
-        const index=this.users.findIndex(user=>user.id==id);
-        if(index===-1){
-            return undefined
+     async update(id:number,updatedUserDto:UpdateUserDto){
+        
+        const oldUser= await this.usersRepository.findOne({where:{ id: id }})
+        if (!oldUser) {
+            throw new NotFoundException(`User with email ${updatedUserDto.email} not found`);
         }
-        else{
-
-            this.users[index] = { ...this.users[index], ...updatedUser };
-            this.saveUsersToFile()
-            return this.users[index]
-        }
-
-            
-            
-       
-    }
+        const updatedUser = Object.assign(oldUser, updatedUserDto);
+        return this.usersRepository.save(updatedUser);
+     }
   
 }
