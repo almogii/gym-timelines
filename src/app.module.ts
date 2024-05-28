@@ -7,10 +7,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule ,ConfigService} from '@nestjs/config';
  import { UsersModule } from './users/users.module';
 import { RecipeModule } from './recipe/recipe.module';
+import { Recipe } from './recipe/entities/recipe.entity';
+import { IngredientsModule } from './ingredients/ingredients.module';
+
+import { Ingredient } from './ingredients/entities/ingredient.entity';
+import { RecipeIngredient } from './recipe-ingredient/entities/recipe-ingredient.entity';
 
 @Module({
   imports: [
-   
+  
   ConfigModule.forRoot(),
   TypeOrmModule.forRootAsync({
     imports: [ConfigModule],
@@ -23,7 +28,7 @@ import { RecipeModule } from './recipe/recipe.module';
         username: configService.get<string>('DATABASE_USERNAME'),
         password: configService.get<string>('DATABASE_PASSWORD'),
         database:configService.get<string>('DATABASE_NAME'),
-        entities: [User],
+        entities: [Recipe, Ingredient, RecipeIngredient, User],
         logging:true,
         synchronize:false
         
@@ -33,7 +38,9 @@ import { RecipeModule } from './recipe/recipe.module';
   }
   ),
   UsersModule,
-  RecipeModule
+  RecipeModule,
+  IngredientsModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
