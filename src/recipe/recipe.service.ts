@@ -107,8 +107,8 @@ export class RecipeService {
     recipeId: number,
     updateRecipeDto: UpdateRecipeDto,
   ): Promise<Recipe> {
-    const recipe = await this.findRecipeById(recipeId);
-    if (recipe.user.id !== userId) {
+    const recipe = await this.recipeRepository.findOne({where:{userId:userId,id:recipeId}});
+    if (!recipe) {
       throw new ForbiddenException(`You are not allowed to update this recipe`);
     }
 
@@ -120,18 +120,35 @@ export class RecipeService {
 
       // Add new ingredients
       for (const ingredientDto of updateRecipeDto.ingredients) {
+        let ingredient=await this.ingredientRepository.findOne({where:{name:ingredientDto.name}})
+        if(!ingredient){
+         ingredient= this.ingredientRepository.create(ingredientDto)
+         this.ingredientRepository.save(ingredient)
+
+        }
         const recipeIngredient = this.recipeIngredientRepository.create({
+            ingredientId:ingredient.id,
           ...ingredientDto,
           recipeId: recipe.id,
         });
         await this.recipeIngredientRepository.save(recipeIngredient);
       }
     }
-
     return this.recipeRepository.save(recipe);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} recipe`;
+ async removeRecipe(userId: number,recipeId:number){
+   const recipe= await this.recipeRepository.find({where:{userId:userId,id:recipeId}})
+   const recipeIngredient=await this.recipeIngredientRepository.find({where:{recipeId:recipeId}})
+   if(recipeIngredient.length==0){
+    throw new ForbiddenException(`already deleted`);
+   }
+  this.recipeIngredientRepository.remove(recipeIngredient)
+   if(recipe.length==0){
+    throw new ForbiddenException(`You are not allowed to delete this recipe`);
+   }
+  this.recipeRepository.remove(recipe)
   }
+
+ 
 }

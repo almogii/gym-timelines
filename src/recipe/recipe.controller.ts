@@ -28,7 +28,7 @@ export class RecipeController {
   }
 
   @Patch(':userId/:recipeId')
-  update(
+  updateRecipe(
       @Param('userId') userId: number,
       @Param('recipeId') recipeId: number,
       @Body() updateRecipeDto: UpdateRecipeDto,
@@ -36,8 +36,9 @@ export class RecipeController {
       return this.recipeService.updateRecipe(userId, recipeId, updateRecipeDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.recipeService.remove(id);
+  @Delete(':userId/:recipeId')
+  removeRecipe( @Param('userId') userId: number,
+      @Param('recipeId') recipeId: number) {
+    return this.recipeService.removeRecipe(userId,recipeId);
   }
 }
