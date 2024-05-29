@@ -14,7 +14,6 @@ export class UpdateRecipeDto {
     @IsOptional()
     description?: string;
 
-   
     ingredients: IngredientDto[];
 }
 
