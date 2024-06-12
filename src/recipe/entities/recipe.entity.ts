@@ -4,7 +4,9 @@ import { PrimaryGeneratedColumn,Column, Entity, ManyToOne, OneToMany } from "typ
 
 @Entity({name:"recipes"})
 export class Recipe {
-
+  constructor(data: Recipe) {
+    Object.assign(this, data);
+  }
 @PrimaryGeneratedColumn()
 id:number
 
@@ -20,7 +22,5 @@ user: User;
 
 @OneToMany(() => RecipeIngredient, recipeIngredient => recipeIngredient.recipe)
 recipeIngredients: RecipeIngredient[]
-constructor(data: Recipe) {
-    Object.assign(this, data);
-  }
+
 }

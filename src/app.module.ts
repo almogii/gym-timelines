@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 import {User} from './users/entities/user.entity'
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule ,ConfigService} from '@nestjs/config';
@@ -12,6 +11,7 @@ import { IngredientsModule } from './ingredients/ingredients.module';
 
 import { Ingredient } from './ingredients/entities/ingredient.entity';
 import { RecipeIngredient } from './recipe-ingredient/entities/recipe-ingredient.entity';
+
 
 @Module({
   imports: [

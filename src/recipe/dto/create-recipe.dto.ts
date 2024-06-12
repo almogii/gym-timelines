@@ -4,7 +4,7 @@ import { IsString, IsArray } from 'class-validator';
 import { IngredientDto } from 'src/ingredients/dto/ingredient.dto';
 
 
-export class CreateRecipeDto {
+export class RecipeDto {
     @IsString()
     title: string;
   

@@ -1,9 +1,10 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumber, IsOptional, IsString } from "class-validator";
 
 export class IngredientDto {
 
     @IsNumber()
-    ingredientId?: number;
+    @IsOptional()
+    id: number;
     @IsString()
     name:string;
     @IsNumber()

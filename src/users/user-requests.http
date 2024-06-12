@@ -1,0 +1,31 @@
+#List of all users
+
+GET http://localhost:3000/users
+
+#Create new user
+POST http://localhost:3000/users
+{
+    "firstName":"almog",
+    "lastName":"Itskovich",
+    "email":"almog@gmail.com",
+    "password":"123123"
+
+}
+ 
+GET http://localhost:3000/users/{userId}
+Content-Type: application/json
+
+
+DELETE http://localhost:3000/users/{userId}
+Content-Type: application/json
+
+
+PATCH http://localhost:3000/users/{userId}
+Content-Type: application/json
+
+{
+    "firstName":"almog",
+    "lastName":"Itskovich",
+    "email":"almogit@gmail.com",
+    "password":"123123"
+}
