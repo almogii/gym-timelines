@@ -10,7 +10,6 @@ export class Ingredient {
         Object.assign(this, data);
       }
     @PrimaryGeneratedColumn()
-   
     id:number
 
     @Column()
