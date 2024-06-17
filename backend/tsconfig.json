@@ -17,5 +17,12 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": [
+    "src/**/*.ts" // Adjust the include pattern to match your project structure
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+
 }
