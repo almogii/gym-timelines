@@ -100,8 +100,9 @@ export class RecipeService {
     });
   }
 
-  findAll() {
-    return this.recipeRepository.find();
+  async findAll() {
+    // return this.recipeRepository.find();
+    return await this.recipeRepository.find({ relations: ['user'] });
   }
 
   findOne(recipeId: number) {
