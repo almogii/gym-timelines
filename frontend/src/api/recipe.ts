@@ -16,7 +16,7 @@ export const postAllPics = async (recipes: Recipe[]) => {
           size: "1024x1024"
         }, {
           headers: {
-            'Authorization': ` Bearer sk-proj-UVqnIhDvMUrXdDBE63qnT3BlbkFJfzfqZo250UWO3phDwZpl`,  
+            'Authorization': `test`,  
             'Content-Type': 'application/json'
           }
         });
