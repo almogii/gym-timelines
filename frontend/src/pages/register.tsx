@@ -5,9 +5,13 @@ import {Form} from 'antd'
 import {postRegisterApi} from '../api/auth'
 import {CreateUserDto} from '../../../backend/src/users/dto/create-user.dto'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-
-
+import {useNavigate} from 'react-router-dom'
+import {setSessionItem} from '../utils/sessionStorage'
 const Register: React.FC = () => {
+
+  
+  const navigate=useNavigate()
+
   const [user, setUserDetails] = useState<CreateUserDto>({
     firstName: '',
     lastName: '',
@@ -23,13 +27,16 @@ const Register: React.FC = () => {
     });
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async (values:CreateUserDto) => {
+   
+  
     try {
       // const response = await apiService.post('/users', user);
-      const response= await postRegisterApi(user)
+      const response= await postRegisterApi(values)
       console.log('User registered:', response.data);
+      setSessionItem('user',values)
+       handleNavigation('/')
+      
       
     } catch (error) {
       console.log('Error registering user:', error);
@@ -37,24 +44,68 @@ const Register: React.FC = () => {
     }
   };
 
+  const handleNavigation = (url:string)=> {
+    navigate(url)
+  }
+
   return (
-    <Form 
-    className='register-form'
-    initialValues={{remember:true}}
-    onFinish={handleSubmit}>
-    <Form.Item name='first name' rules={[{required:true,message:'please input your First name'}]}>
-      <InputComponent onChange={handleChange} prefix={<UserOutlined className='site-form-item-icon'/>} placeholderText={'First name'}/>
-    </Form.Item>
-    <Form.Item name='family name' rules={[{required:true,message:'please input your family name'}]}>
-      <InputComponent onChange={handleChange} prefix={<UserOutlined className='site-form-item-icon'/>} placeholderText={'family name'}/>
-    </Form.Item>
-    <Form.Item name='email' rules={[{required:true,message:'please input your email'}]}>
-      <InputComponent onChange={handleChange} prefix={<UserOutlined className='site-form-item-icon'/>} placeholderText={'example: aaa@gmail.com'}/>
-    </Form.Item>
-    <Form.Item name='password' rules={[{required:true,message:'Please input your Password!'}]}>
-      <InputComponent onChange={handleChange} prefix={<LockOutlined  className='site-form-item-icon'/>} placeholderText={'password'} type='password'/>
-    </Form.Item>
-    <ButtonComponent type='primary' htmlType='submit' className='register-form-btn'>Submit</ButtonComponent>
+    <Form
+      className="register-form"
+      initialValues={user}
+      onFinish={handleSubmit}
+    >
+      <Form.Item
+        name="firstName"
+        rules={[{ required: true, message: 'Please input your First name' }]}
+      >
+        <InputComponent
+          name="firstName"
+          onChange={handleChange}
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholderText="First name"
+          value={user.firstName}
+        />
+      </Form.Item>
+      <Form.Item
+        name="lastName"
+        rules={[{ required: true, message: 'Please input your Family name' }]}
+      >
+        <InputComponent
+          name="lastName"
+          onChange={handleChange}
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholderText="Family name"
+          value={user.lastName}
+        />
+      </Form.Item>
+      <Form.Item
+        name="email"
+        rules={[{ required: true, message: 'Please input your email' }]}
+      >
+        <InputComponent
+          name="email"
+          onChange={handleChange}
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholderText="example: aaa@gmail.com"
+          value={user.email}
+        />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        rules={[{ required: true, message: 'Please input your Password!' }]}
+      >
+        <InputComponent
+          name="password"
+          onChange={handleChange}
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          placeholderText="Password"
+          type="password"
+          value={user.password}
+        />
+      </Form.Item>
+      <ButtonComponent type="primary" htmlType="submit" className="register-form-btn">
+        Submit
+      </ButtonComponent>
     </Form>
   );
 };

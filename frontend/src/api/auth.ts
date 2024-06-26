@@ -7,6 +7,8 @@ export const postLoginApi = async(data:CreateUserDto)=>{
 }
 export  const postRegisterApi = async(data:CreateUserDto)=>{
 
+    console.log('from auth',data);
+    
 return await apiService.post('/users',data)
 }
 

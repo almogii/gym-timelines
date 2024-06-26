@@ -1,23 +1,10 @@
-import React from "react";
-import {Input} from "antd";
-import { InputProps } from 'antd/lib/input';
-
-
+import React from 'react';
+import { Input, InputProps } from 'antd';
 
 interface CustomInputProps extends InputProps {
-    
-    placeholderText: string;
+  placeholderText: string;
+}
 
-  }
-
- export const InputComponent:React.FC<CustomInputProps> = ({placeholderText,...props})=>{
-
-    return(<Input placeholder={placeholderText} 
-        {...props}
-    
-    />)
-  }
-
-
-
-  
+export const InputComponent: React.FC<CustomInputProps> = ({ placeholderText, ...props }) => {
+  return <Input placeholder={placeholderText} {...props} />;
+};
