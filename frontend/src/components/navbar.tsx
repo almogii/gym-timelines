@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Avatar, Dropdown,MenuProps ,Layout, Flex} from 'antd';
 import ButtonComponent from '../components/Button'
+import { useNavigate } from "react-router-dom";
 
 const { Search } = Input;
 const {Header} =Layout
@@ -14,15 +15,21 @@ export const NavBarComponent: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [searchValue, setSearchValue] = useState<string>('');
 
+  const navigate = useNavigate();
 
+  const navToPage=(url:string)=>{
+      navigate(url)
+  }
   const handleLogin = () => {
+
     setUser({
       email: 'user@example.com',
       avatar: 'https://via.placeholder.com/150',
     });
   };
 
-  
+ 
+
   const handleLogout = () => {
     setUser(null);
   };
@@ -77,7 +84,7 @@ export const NavBarComponent: React.FC = () => {
           ) : (
             <Flex align='center'>
               <ButtonComponent type="primary" onClick={handleLogin} style={{marginRight:'16px'}}>Sign In</ButtonComponent>
-              <ButtonComponent onClick={handleLogin}>Register</ButtonComponent>
+              <ButtonComponent onClick={()=>navToPage('/register')}>Register</ButtonComponent>
             </Flex>
           )}
       </Flex>
