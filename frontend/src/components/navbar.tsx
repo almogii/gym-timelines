@@ -28,12 +28,13 @@ export const NavBarComponent: React.FC = () => {
   const navToPage=(url:string)=>{
       navigate(url)
   }
-  const handleLogin = () => {
+  // const handleLogin = () => {
     
-    setUser(user);
-    setSessionItem('user', user);
+  //   setUser(user);
+  //   setSessionItem('user', user);
+
     
-  };
+  // };
 
  
 
@@ -91,7 +92,7 @@ export const NavBarComponent: React.FC = () => {
             </Dropdown>
           ) : (
             <Flex align='center'>
-              <ButtonComponent type="primary" onClick={handleLogin} style={{marginRight:'16px'}}>Sign In</ButtonComponent>
+              <ButtonComponent type="primary" onClick={()=>navToPage('/signin')} style={{marginRight:'16px'}}>Sign In</ButtonComponent>
               
               <ButtonComponent  onClick={()=>navToPage('/register')}>Register</ButtonComponent>
             </Flex>

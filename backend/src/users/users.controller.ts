@@ -37,6 +37,10 @@ update(@Param('id',ParseIntPipe) id:number, @Body(ValidationPipe) updatedUserDto
     return this.usersService.update(id,updatedUserDto)
 }
 
+@Post('login')
+  findOneByEmailAndPassword(@Body() loginDto: { email: string; password: string }) {
+    return this.usersService.findOneByEmailAndPassword(loginDto.email, loginDto.password);
+  }
 
 }
 

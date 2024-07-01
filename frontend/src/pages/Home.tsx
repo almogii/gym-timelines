@@ -8,7 +8,7 @@ import {Recipe} from '../../../backend/src/recipe/entities/recipe.entity'
 import {User} from '../../../backend/src/users/entities/user.entity'
 import { Col , Row, Space } from 'antd';
 import { NavBarComponent } from '../components/navbar';
-import {getSessionItem,setSessionItem, removeSessionItem} from '../utils/sessionStorage'
+
 const HomePage: React.FC = () => {
   // const imgLink:string='https://www.themealdb.com/images/ingredients/Lime.png'
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -51,8 +51,8 @@ const HomePage: React.FC = () => {
       {recipes.map((recipe,index)=>{
           const user= users.find(user=>user.id === recipe.userId) 
           const recipeImage = imageUrls[index] || 'default_image_url_here';
-
-          return(<Col  xs={24} sm={12} md={8}><RecipeCard recipeImage={recipeImage} userEmail={user?.email} recipeTitle={recipe.title} description={recipe.description}          
+          
+          return(<Col  xs={24} sm={12} md={8}><RecipeCard recipeImage={recipeImage} userEmail={user?user.email:'no email'} recipeTitle={recipe.title} description={recipe.description}          
           /></Col>)
         })}     
       </Row>

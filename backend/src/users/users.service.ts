@@ -69,5 +69,14 @@ export class UsersService {
            const updatedUser = Object.assign(oldUser, updatedUserDto);
            return this.usersRepository.save(updatedUser);
         }
+
+
+        async findOneByEmailAndPassword(email: string, password: string): Promise<User> {
+          const user = await this.usersRepository.findOne({ where: { email, password } });
+          if (!user) {
+            throw new NotFoundException(`User with email ${email} and provided password not found`);
+          }
+          return user;
+        }
   
 }
