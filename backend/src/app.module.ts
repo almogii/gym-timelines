@@ -11,6 +11,7 @@ import { IngredientsModule } from './ingredients/ingredients.module';
 
 import { Ingredient } from './ingredients/entities/ingredient.entity';
 import { RecipeIngredient } from './recipe-ingredient/entities/recipe-ingredient.entity';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -40,6 +41,7 @@ import { RecipeIngredient } from './recipe-ingredient/entities/recipe-ingredient
   UsersModule,
   RecipeModule,
   IngredientsModule,
+  AuthModule,
 
   ],
   controllers: [AppController],

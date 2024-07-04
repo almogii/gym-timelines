@@ -1,7 +1,7 @@
-import { Controller, Get, Post ,Param, Body, Delete, Patch} from '@nestjs/common';
+import { Controller, Get,Param, Body, Delete, Patch} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ParseIntPipe,ValidationPipe } from '@nestjs/common';
-import {CreateUserDto} from './dto/create-user.dto';
+
 import {UpdateUserDto} from './dto/update-user.dto';
 
 @Controller('users') 
@@ -22,10 +22,10 @@ findOneByID(@Param('userId',ParseIntPipe) userId:number){
     return this.usersService.findOneByID(userId)
 }
 
-@Post() 
-createUser(@Body(ValidationPipe) createUserDto:CreateUserDto){
-    return this.usersService.createUser(createUserDto)
-}
+// @Post() 
+// createUser(@Body(ValidationPipe) createUserDto:CreateUserDto){
+//     return this.usersService.createUser(createUserDto)
+// }
 
 @Delete(':userId')
 deleteUser(@Param('userId') userId: number) {
@@ -37,10 +37,10 @@ update(@Param('id',ParseIntPipe) id:number, @Body(ValidationPipe) updatedUserDto
     return this.usersService.update(id,updatedUserDto)
 }
 
-@Post('login')
-  findOneByEmailAndPassword(@Body() loginDto: { email: string; password: string }) {
-    return this.usersService.findOneByEmailAndPassword(loginDto.email, loginDto.password);
-  }
+// @Post('login')
+//   findOneByEmailAndPassword(@Body() loginDto: { email: string;  }) {
+//     return this.usersService.findOneByEmail(loginDto.email);
+//   }
 
 }
 

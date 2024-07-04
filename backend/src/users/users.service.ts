@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
-import {CreateUserDto} from './dto/create-user.dto';
-// import * as fs from 'fs'
+
 import { UpdateUserDto } from './dto/update-user.dto';
 import { NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -31,20 +30,20 @@ export class UsersService {
    
          }
    
-         async createUser(createUserDto: CreateUserDto): Promise<User> {
-           // Check if a user with the given email already exists
-           const existingUser = await this.usersRepository.findOne({where:{ email: createUserDto.email }});
+        //  async createUser(createUserDto: CreateUserDto): Promise<User> {
+        //    // Check if a user with the given email already exists
+        //    const existingUser = await this.usersRepository.findOne({where:{ email: createUserDto.email }});
        
-           if (existingUser) {
-             throw new NotFoundException('User with this email already exists');
-           }
+        //    if (existingUser) {
+        //      throw new NotFoundException('User with this email already exists');
+        //    }
        
-           // Create a new user entity with the provided data
-           const newUser = this.usersRepository.create(createUserDto);
+        //    // Create a new user entity with the provided data
+        //    const newUser = this.usersRepository.create(createUserDto);
        
-           // Save the new user entity to the database
-           return this.usersRepository.save(newUser);
-         }
+        //    // Save the new user entity to the database
+        //    return this.usersRepository.save(newUser);
+        //  }
    
          async deleteUser(userId: number) {
            // Find the user with the provided userId in the database
@@ -71,8 +70,8 @@ export class UsersService {
         }
 
 
-        async findOneByEmailAndPassword(email: string, password: string): Promise<User> {
-          const user = await this.usersRepository.findOne({ where: { email, password } });
+        async findOneByEmail(email: string): Promise<User> {
+          const user = await this.usersRepository.findOne({ where: { email} });
           if (!user) {
             throw new NotFoundException(`User with email ${email} and provided password not found`);
           }

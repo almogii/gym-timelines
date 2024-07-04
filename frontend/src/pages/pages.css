@@ -49,3 +49,8 @@
         padding: 8px; /* Adjust padding for smaller screens */
     }
 }
+
+img{
+    height:200px; 
+    width: 200px;
+}
