@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Input, Avatar, Dropdown,MenuProps ,Layout, Flex} from 'antd';
 import ButtonComponent from '../components/Button'
 import { useNavigate } from "react-router-dom";
-import {getSessionItem,setSessionItem, removeSessionItem} from '../utils/sessionStorage'
+import {getSessionItem, removeSessionItem} from '../utils/sessionStorage'
 import {User} from '../../../backend/src/users/entities/user.entity'
 
 const { Search } = Input;
@@ -28,15 +28,7 @@ export const NavBarComponent: React.FC = () => {
   const navToPage=(url:string)=>{
       navigate(url)
   }
-  // const handleLogin = () => {
-    
-  //   setUser(user);
-  //   setSessionItem('user', user);
 
-    
-  // };
-
- 
 
   const handleLogout = () => {
     setUser(null);

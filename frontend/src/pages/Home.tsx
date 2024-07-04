@@ -10,7 +10,7 @@ import { Col , Row, Space } from 'antd';
 import { NavBarComponent } from '../components/navbar';
 
 const HomePage: React.FC = () => {
-  // const imgLink:string='https://www.themealdb.com/images/ingredients/Lime.png'
+  const imgLink:string='https://www.themealdb.com/images/ingredients/Lime.png'
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [users,setUsers]=useState<User[]>([])
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -47,12 +47,12 @@ const HomePage: React.FC = () => {
       
       {/* Recipe Cards */}
       
-      <Row style={{justifyContent:'center'}} justify="space-between"gutter={[12,12]}>
+      <Row style={{justifyContent:'center'}} justify='space-between' gutter={[12,12]} >
       {recipes.map((recipe,index)=>{
           const user= users.find(user=>user.id === recipe.userId) 
-          const recipeImage = imageUrls[index] || 'default_image_url_here';
+          const recipeImage = imageUrls[index] || imgLink;
           
-          return(<Col  xs={24} sm={12} md={8}><RecipeCard recipeImage={recipeImage} userEmail={user?user.email:'no email'} recipeTitle={recipe.title} description={recipe.description}          
+          return(<Col xs={24} sm={12} md={6} ><RecipeCard recipeImage={recipeImage} userEmail={user?user.email:'no email'} recipeTitle={recipe.title} description={recipe.description}          
           /></Col>)
         })}     
       </Row>

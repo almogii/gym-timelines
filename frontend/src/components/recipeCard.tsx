@@ -17,7 +17,7 @@ interface RecipeCardProps extends CardProps{
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipeImage, userAvatar, recipeTitle, description ,...props}) => {
   return (
    
-   <Card  style={{width:'300px'}} cover={<img alt={recipeImage} src={recipeImage} ></img>} >
+   <Card style={{width:'300px'}} cover={<img alt={recipeImage}  src={recipeImage} ></img>} >
    <Card.Meta  title={recipeTitle} avatar={ <Avatar src={userAvatar} shape='circle' size='small'/>} description={description} {...props}></Card.Meta>
    </Card>
   );
